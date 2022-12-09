@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from './Navbar';
 import MoviesPage from "../pages/MoviesPage";
 import MovieSessionPage from "../pages/MovieSessionPage";
 import SeatSelectionPage from "../pages/SeatSelectionPage";
 import CheckoutPage from "../pages/CheckoutPage";
-import Navbar from './Navbar';
+
 
 export default function App() {
     return (
@@ -13,7 +14,7 @@ export default function App() {
             <Route  path='/' element={<MoviesPage/>}/>
             <Route  path='/sessoes/:idFilme' element={<MovieSessionPage/>}/>
             <Route  path='/sessoes/:idSessao' element={<SeatSelectionPage/>}/>
-            <Route  path='/sucesso' element={<SeatSelectionPage/>}/>
+            <Route  path='/sucesso' element={<CheckoutPage/>}/>
           </Routes>
         </BrowserRouter>
       )
