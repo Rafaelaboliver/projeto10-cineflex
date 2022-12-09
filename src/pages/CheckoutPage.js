@@ -1,6 +1,6 @@
 import styled  from "styled-components";
 
-export default function Navbar () {
+export default function CheckoutPage () {
     return (
         <div></div>
     )
