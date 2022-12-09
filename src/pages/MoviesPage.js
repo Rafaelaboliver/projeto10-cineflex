@@ -1,8 +1,9 @@
-import styled from "styled-components";
+import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState(undefined);
@@ -15,17 +16,22 @@ export default function MoviesPage() {
     }, []);
 
     if (movies === undefined) {
-        return <div>Carregando...</div>
+        return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880'/></Loading> 
     }
 
     return (
         <Container>
+            <Subtitle>
+                <h2>Selecione o filme</h2>
+            </Subtitle>
             <Movies>
-                    {movies.map(movie => (
-                        <MovieImage key={movie.id}>
+                {movies.map(movie => (
+                    <MovieImage key={movie.id}>
+                        <Link to={`/sessoes/${movie.id}`}>
                             <img src={movie.posterURL} />
-                        </MovieImage>
-                    ))}
+                        </Link>
+                    </MovieImage>
+                ))}
             </Movies>
         </Container>
     )
@@ -34,9 +40,21 @@ export default function MoviesPage() {
 const Container = styled.div`
 width: 100%;
 display: flex;
+flex-direction: column;
 align-items: center;
 justify-content: center;
 align-content: center;
+`
+const Subtitle = styled.div`
+width: 100%;
+height: 110px;
+text-align: center;
+h2{
+    margin-top: 40px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 24px;
+}
 `
 
 const Movies = styled.div`
@@ -61,4 +79,9 @@ img{
     height: 193px;
 }
 
+`
+const Loading = styled.div`
+margin: 0 auto;
+width: 800px;
+height: 800px;
 `
