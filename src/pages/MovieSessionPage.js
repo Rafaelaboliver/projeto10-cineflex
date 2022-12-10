@@ -17,7 +17,7 @@ export default function MovieSessionPage() {
     }, []);
 
     if (sessions === undefined) {
-        return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading'/></Loading>
+        return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
     }
 
     return (
@@ -32,13 +32,13 @@ export default function MovieSessionPage() {
                     <Day >
                         {session.weekday} - {session.date}
                     </Day>
-                    {session.showtimes.map(time => (
-                        <TimeSection key={session.name}>
-                            <Link to={`/assentos/${session.id}`}>
+                    <TimeSection key={session.name}>
+                        {session.showtimes.map(time => (
+                            <Link key={time.name} to={`/assentos/${time.id}`}>
                                 <Time>{time.name}</Time>
                             </Link>
-                        </TimeSection>
-                    ))}
+                        ))}
+                    </TimeSection>
                 </Session>
             ))}
 
@@ -94,9 +94,10 @@ margin-left: 20px;
 margin-top: 15px;
 `
 const TimeSection = styled.div`
-width: 100%;
+max-width: 180px;
 display: flex;
 flex-direction: row;
+justify-content: space-between;
 margin-left: 20px;
 `
 const Time = styled.button`
@@ -113,7 +114,7 @@ border-radius: 3px;
 border-style: none;
 `
 const Footer = styled.div`
-margin-top: 10px;
+margin-top: 15px;
 width: 100%;
 height: 120px;
 display: flex;

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState(undefined);
-  
+
 
     useEffect(() => {
         const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/movies';
@@ -17,7 +17,7 @@ export default function MoviesPage() {
     }, []);
 
     if (movies === undefined) {
-        return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading'/></Loading> 
+        return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
     }
 
     return (
@@ -29,7 +29,7 @@ export default function MoviesPage() {
                 {movies.map(movie => (
                     <MovieImage key={movie.id}>
                         <Link to={`/sessoes/${movie.id}`}>
-                            <img src={movie.posterURL} alt='poster'/>
+                            <img src={movie.posterURL} alt='poster' />
                         </Link>
                     </MovieImage>
                 ))}
