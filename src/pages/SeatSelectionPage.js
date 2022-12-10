@@ -33,6 +33,23 @@ export default function SeatSelectionPage() {
                 ))}
             </SeatSection>
 
+            <SeatsTemplate>
+                <SelectedSeat>
+                    <button></button>
+                    <p>Selecionado</p>
+                </SelectedSeat>
+
+                <AvailableSeat>
+                    <button></button>
+                    <p>Disponível</p>
+                </AvailableSeat>
+
+                <UnvailableSeat>
+                    <button></button>
+                    <p>Indisponível</p>
+                </UnvailableSeat>
+            </SeatsTemplate>
+
             <form>
                 <InputName>
                     <p>Nome do comprador:</p>
@@ -48,12 +65,13 @@ export default function SeatSelectionPage() {
 
             <Footer>
                 <Poster>
-                    imagem do filme escolhido
+                    <img src={seatSelection.movie.posterURL} alt='poster' />
                 </Poster>
 
                 <p>
-                    título do filme escolhido
-                    dia da sessão - horário da sessão
+                    {seatSelection.movie.title}
+                    <br />
+                    {seatSelection.day.weekday} - {seatSelection.name}
                 </p>
             </Footer>
         </Seats>
@@ -85,7 +103,9 @@ width: 800px;
 height: 800px;
 `
 const SeatSection = styled.div`
+max-width: 400px;
 display: flex;
+flex-wrap: wrap;
 `
 const SeatSelection = styled.button`
 background-color: #c3cfd9;
@@ -93,13 +113,84 @@ border-color: #808f9d;
 border-style: solid;
 border-radius: 12px;
 border-width: 1px;
+margin-left: 13px;
+margin-top: 18px;
 font-size: 11px;
 font-family: Roboto;
 font-weight: 400;
 cursor: pointer;
 color: #000;
-width: 13px;
-height: 9px;
+width: 26px;
+height: 26px;
+`
+const SeatsTemplate = styled.div`
+display: flex;
+margin-top: 20px;
+width: 300px;
+justify-content: space-between;
+`
+const SelectedSeat = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+button{
+    width: 26px;
+    height: 26px;
+    background-color: #1aae9e;
+    border-radius: 12px;
+    border-color: #0e7d71;
+    border-style: solid;
+    border-width: 1px;
+}
+p{
+    margin-top: 5px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 13px;
+    color: #4e5a65;
+}
+`
+const AvailableSeat = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+button{
+    width: 26px;
+    height: 26px;
+    background-color: #c3cfd9;
+    border-color: #7b8b99;
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 1px;
+}
+p{
+    margin-top: 5px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 13px;
+    color: #4e5a65;
+}
+`
+const UnvailableSeat = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+button{
+    width: 26px;
+    height: 26px;
+    background-color: #fbe192;
+    border-color: #f7c52b;
+    border-radius: 12px;
+    border-style: solid;
+    border-width: 1px;
+}
+p{
+    margin-top: 5px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 13px;
+    color: #4e5a65;
+}
 `
 const InputName = styled.div`
 margin-top: 40px;
