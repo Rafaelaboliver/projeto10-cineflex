@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState(undefined);
+  
 
     useEffect(() => {
         const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/movies';
