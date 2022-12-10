@@ -17,6 +17,14 @@ export default function SeatSelectionPage() {
 
     if (seatSelection === undefined) {
         return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
+    };
+
+    function selectingSeat (props) {
+        console.log('AQUI', props);
+
+        if (props === false) {
+            alert('Esse assento não está disponível')
+        };
     }
 
     return (
@@ -27,9 +35,13 @@ export default function SeatSelectionPage() {
 
             <SeatSection>
                 {seatSelection.seats.map(seat => (
-                    <SeatSelection key={seat.id}>
+                    <button
+                        key={seat.id}
+                        className= {seat.isAvailable? 'unvailable':'available'}
+                        onClick={() => selectingSeat(seat.isAvailable)}
+                    >
                         {seat.name}
-                    </SeatSelection>
+                    </button>
                 ))}
             </SeatSection>
 
@@ -106,22 +118,26 @@ const SeatSection = styled.div`
 max-width: 400px;
 display: flex;
 flex-wrap: wrap;
-`
-const SeatSelection = styled.button`
-background-color: #c3cfd9;
-border-color: #808f9d;
-border-style: solid;
-border-radius: 12px;
-border-width: 1px;
-margin-left: 13px;
-margin-top: 18px;
-font-size: 11px;
-font-family: Roboto;
-font-weight: 400;
-cursor: pointer;
-color: #000;
-width: 26px;
-height: 26px;
+button{
+    border-radius: 12px;
+    margin-left: 13px;
+    margin-top: 18px;
+    font-size: 11px;
+    font-family: Roboto;
+    font-weight: 400;
+    cursor: pointer;
+    color: #000;
+    width: 26px;
+    height: 26px; 
+}
+.available{
+    background: #fbe192;
+    border: 1px solid #f7c52b;
+}
+.unvailable{
+    background-color: #c3cfd9;
+    border: 1px solid #808f9d;
+}
 `
 const SeatsTemplate = styled.div`
 display: flex;
@@ -138,9 +154,7 @@ button{
     height: 26px;
     background-color: #1aae9e;
     border-radius: 12px;
-    border-color: #0e7d71;
-    border-style: solid;
-    border-width: 1px;
+    border: 1px solid #0e7d71;
 }
 p{
     margin-top: 5px;
@@ -158,10 +172,8 @@ button{
     width: 26px;
     height: 26px;
     background-color: #c3cfd9;
-    border-color: #7b8b99;
+    border: 1px solid #7b8b99;
     border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
 }
 p{
     margin-top: 5px;
@@ -179,10 +191,8 @@ button{
     width: 26px;
     height: 26px;
     background-color: #fbe192;
-    border-color: #f7c52b;
+    border: 1px solid #f7c52b;
     border-radius: 12px;
-    border-style: solid;
-    border-width: 1px;
 }
 p{
     margin-top: 5px;
@@ -202,10 +212,8 @@ input{
     color: #afafaf;
     width: 327px;
     height: 51px;
-    border-color: #d4d4d4;
-    border-style: solid;
+    border: 1px solid #d4d4d4;
     border-radius: 3px;
-    border-width: 1px;
 }
 p{
     font-size: 18px;
@@ -224,10 +232,8 @@ input{
     color: #afafaf;
     width: 327px;
     height: 51px;
-    border-color: #d4d4d4;
-    border-style: solid;
+    border: 1px solid #d4d4d4;
     border-radius: 3px;
-    border-width: 1px;
 }
 p{
     font-size: 18px;
@@ -264,10 +270,8 @@ font-size: 18px;
 font-weight: 400;
 font-family: Roboto;
 margin-top: 60px;
-border-width: 1px;
 border-radius: 3px;
-border-style: solid;
-border-color: #e8833a;
+border: 1px solid #e8833a;
 background-color: #e8833a;
 
 `
