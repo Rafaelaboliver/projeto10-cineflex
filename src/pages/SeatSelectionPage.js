@@ -6,6 +6,10 @@ import { Link, useParams } from "react-router-dom";
 
 export default function SeatSelectionPage() {
     const [seatSelection, setSeatSelection] = useState(undefined);
+    const [seatNumber, setSeatNumber] = useState([]);
+    const [selection, setSelection] = useState([]);
+    const [name, setName] = useState('');
+    const [cpf, setCPF] = useState('');
     const { idSessao } = useParams();
 
     useEffect(() => {
@@ -19,12 +23,43 @@ export default function SeatSelectionPage() {
         return <Loading><img src='https://uploaddeimagens.com.br/images/001/326/485/original/loading.gif?1520847880' alt='loading' /></Loading>
     };
 
-    function selectingSeat (props) {
-        console.log('AQUI', props);
+    function selectingSeat(props) {
+        const newSelection = [...selection, props.id];
+        const newSeatNumber = [...seatNumber, props.name]
 
-        if (props === false) {
-            alert('Esse assento não está disponível')
+        //se não incluir o assento, adicionar:
+        if (props.isAvailable && !selection.includes(props.id)) {
+            setSelection(newSelection);
+            setSeatNumber(newSeatNumber);
         };
+        //se o assento estiver, caso clicado novamente, remover:
+        if (props.isAvailable && selection.includes(props.id)) {
+            setSelection(newSelection.filter((selec) => selec !== props.id));
+            setSeatNumber(newSeatNumber.filter((seat) => seat !== props.name));
+        };
+        if (props.isAvailable === false) {
+            alert('Esse assento não está disponível');
+            newSeatNumber.splice(props.isAvailable)
+            newSelection.splice(props.isAvailable);
+        };
+
+        console.log('AQUI', newSelection);
+
+    };
+
+    function submitInformation(e) {
+        e.preventDefault();
+        const submit = { ids: seatNumber, name: name, cpf: cpf };
+        const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
+        const promise = axios.post(URL, submit);
+
+        promise.then(res => console.log('then', res.data));
+        promise.catch(err => console.log('err', err.response.data));
+
+        setName('');
+        setCPF('');
+
+        console.log('AQUI', submit);
     }
 
     return (
@@ -37,8 +72,12 @@ export default function SeatSelectionPage() {
                 {seatSelection.seats.map(seat => (
                     <button
                         key={seat.id}
-                        className= {seat.isAvailable? 'unvailable':'available'}
-                        onClick={() => selectingSeat(seat.isAvailable)}
+                        onClick={() => selectingSeat(seat)}
+                        className={!seat.isAvailable
+                            ? 'unvailable'
+                            : selection.includes(seat.id)
+                                ? 'selected'
+                                : 'available'}
                     >
                         {seat.name}
                     </button>
@@ -62,18 +101,30 @@ export default function SeatSelectionPage() {
                 </UnvailableSeat>
             </SeatsTemplate>
 
-            <form>
-                <InputName>
-                    <p>Nome do comprador:</p>
-                    <input type='text' placeholder='Digite seu nome...' required />
+            <form onSubmit={submitInformation}>
+                <InputName >
+                    <label htmlFor='name'>Nome do comprador:</label>
+                    <input
+                        id='name'
+                        type='text'
+                        placeholder='Digite seu nome...'
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        required />
                 </InputName>
                 <InputCPF>
-                    <p>CPF do comprador:</p>
-                    <input type='number' placeholder='Digite seu CPF...' required />
+                    <label htmlFor='cpf'>CPF do comprador:</label>
+                    <input
+                        id='cpf'
+                        type='text'
+                        placeholder='Digite seu CPF...'
+                        value={cpf}
+                        onChange={e => setCPF(e.target.value)}
+                        required />
                 </InputCPF>
-            </form>
 
-            <FinishSelection>Reservar assento(s)</FinishSelection>
+                <FinishSelection type='submit'>Reservar assento(s)</FinishSelection>
+            </form>
 
             <Footer>
                 <Poster>
@@ -95,8 +146,6 @@ width: 100%;
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: center;
-align-content: center;
 `
 const Subtitle = styled.div`
 width: 100%;
@@ -130,13 +179,18 @@ button{
     width: 26px;
     height: 26px; 
 }
+
 .available{
-    background: #fbe192;
-    border: 1px solid #f7c52b;
+    background: #c3cfd9;
+    border: 1px solid #7b8b99;
 }
 .unvailable{
-    background-color: #c3cfd9;
-    border: 1px solid #808f9d;
+    background-color: #fbe192;
+    border: 1px solid #f7c52b;
+}
+.selected{
+    background-color: #1aae9e;
+    border: 1px solid #0e7d71;
 }
 `
 const SeatsTemplate = styled.div`
@@ -204,6 +258,8 @@ p{
 `
 const InputName = styled.div`
 margin-top: 40px;
+display: flex;
+flex-direction: column;
 input{
     font-size: 18px;
     font-weight: 400;
@@ -215,7 +271,7 @@ input{
     border: 1px solid #d4d4d4;
     border-radius: 3px;
 }
-p{
+label{
     font-size: 18px;
     font-weight: 400;
     font-family: Roboto;
@@ -224,6 +280,8 @@ p{
 `
 const InputCPF = styled.div`
 margin-top: 10px;
+display: flex;
+flex-direction: column;
 input{
     font-size: 18px;
     font-weight: 400;
@@ -235,7 +293,7 @@ input{
     border: 1px solid #d4d4d4;
     border-radius: 3px;
 }
-p{
+label{
     font-size: 18px;
     font-weight: 400;
     font-family: Roboto;
@@ -265,11 +323,11 @@ const FinishSelection = styled.button`
 width: 225px;
 height: 42px;
 color: #fff;
-margin: auto;
 font-size: 18px;
 font-weight: 400;
 font-family: Roboto;
 margin-top: 60px;
+margin-left: 40px;
 border-radius: 3px;
 border: 1px solid #e8833a;
 background-color: #e8833a;
@@ -281,6 +339,7 @@ width: 64px;
 height: 89px;
 box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 background-color: #fff;
+
 img{
     margin: 7.5px;
     width: 50px;
