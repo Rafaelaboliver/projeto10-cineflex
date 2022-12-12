@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function SeatSelectionPage() {
     const [seatSelection, setSeatSelection] = useState(undefined);
@@ -11,6 +11,7 @@ export default function SeatSelectionPage() {
     const [name, setName] = useState('');
     const [cpf, setCPF] = useState('');
     const { idSessao } = useParams();
+    const navigate = useNavigate()
 
     useEffect(() => {
         const URL = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`;
@@ -42,7 +43,6 @@ export default function SeatSelectionPage() {
             newSeatNumber.splice(props.isAvailable)
             newSelection.splice(props.isAvailable);
         };
-
         console.log('AQUI', newSelection);
 
     };
@@ -53,12 +53,15 @@ export default function SeatSelectionPage() {
         const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
         const promise = axios.post(URL, submit);
 
-        promise.then(res => console.log('then', res.data));
+        promise.then(res => {
+            console.log('then', res.data) 
+            navigate('/sucesso');
+        });
+        
         promise.catch(err => console.log('err', err.response.data));
 
         setName('');
         setCPF('');
-
         console.log('AQUI', submit);
     }
 
@@ -107,8 +110,8 @@ export default function SeatSelectionPage() {
                     <input
                         id='name'
                         type='text'
-                        placeholder='Digite seu nome...'
                         value={name}
+                        placeholder='Digite seu nome...'
                         onChange={e => setName(e.target.value)}
                         required />
                 </InputName>
@@ -116,9 +119,9 @@ export default function SeatSelectionPage() {
                     <label htmlFor='cpf'>CPF do comprador:</label>
                     <input
                         id='cpf'
-                        type='text'
-                        placeholder='Digite seu CPF...'
+                        type='number'
                         value={cpf}
+                        placeholder='Digite seu CPF...'
                         onChange={e => setCPF(e.target.value)}
                         required />
                 </InputCPF>
@@ -263,14 +266,18 @@ flex-direction: column;
 input{
     font-size: 18px;
     font-weight: 400;
-    font-style: italic;
     font-family: Roboto;
-    color: #afafaf;
+    color: #293845;
     width: 327px;
     height: 51px;
     border: 1px solid #d4d4d4;
     border-radius: 3px;
+    ::placeholder{
+        font-style: italic;
+        color: #afafaf;
+    }
 }
+
 label{
     font-size: 18px;
     font-weight: 400;
@@ -285,13 +292,16 @@ flex-direction: column;
 input{
     font-size: 18px;
     font-weight: 400;
-    font-style: italic;
     font-family: Roboto;
-    color: #afafaf;
+    color: #293845;
     width: 327px;
     height: 51px;
     border: 1px solid #d4d4d4;
     border-radius: 3px;
+    ::placeholder{
+        font-style: italic;
+        color: #afafaf;
+    }
 }
 label{
     font-size: 18px;
