@@ -28,21 +28,21 @@ export default function MovieSessionPage() {
 
 
             {sessions.days.map(session => (
-                <Session key={session.id}>
+                <Session key={session.id} data-test='movie-day'>
                     <Day >
                         {session.weekday} - {session.date}
                     </Day>
-                    <TimeSection key={session.name}>
+                    <TimeSection key={session.name} >
                         {session.showtimes.map(time => (
                             <Link key={time.name} to={`/assentos/${time.id}`}>
-                                <Time>{time.name}</Time>
+                                <Time data-test='showtime'>{time.name}</Time>
                             </Link>
                         ))}
                     </TimeSection>
                 </Session>
             ))}
 
-            <Footer key={sessions.releaseDate}>
+            <Footer key={sessions.releaseDate} data-test='footer'>
                 <Poster>
                     <img src={sessions.posterURL} alt='poster' />
                 </Poster>

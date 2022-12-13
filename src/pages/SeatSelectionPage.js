@@ -82,6 +82,7 @@ export default function SeatSelectionPage({ setSucessInfo }) {
                 {seatSelection.seats.map(seat => (
                     <button
                         key={seat.id}
+                        data-test='seat'
                         onClick={() => selectingSeat(seat)}
                         className={!seat.isAvailable
                             ? 'unvailable'
@@ -118,6 +119,7 @@ export default function SeatSelectionPage({ setSucessInfo }) {
                         id='name'
                         type='text'
                         value={name}
+                        data-test='client-name'
                         placeholder='Digite seu nome...'
                         onChange={e => setName(e.target.value)}
                         required />
@@ -128,15 +130,21 @@ export default function SeatSelectionPage({ setSucessInfo }) {
                         id='cpf'
                         type='number'
                         value={cpf}
+                        data-test='client-cpf'
                         placeholder='Digite seu CPF...'
                         onChange={e => setCPF(e.target.value)}
                         required />
                 </InputCPF>
 
-                <FinishSelection type='submit'>Reservar assento(s)</FinishSelection>
+                <FinishSelection
+                    type='submit'
+                    data-test='book-seat-bnt'
+                >
+                    Reservar assento(s)
+                </FinishSelection>
             </form>
 
-            <Footer>
+            <Footer data-test='footer'>
                 <Poster>
                     <img src={seatSelection.movie.posterURL} alt='poster' />
                 </Poster>

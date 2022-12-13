@@ -10,7 +10,7 @@ export default function CheckoutPage({ sucessInfo }) {
                 <h2>Pedido feito com sucesso!</h2>
             </Subtitle>
 
-            <OverallInformation>
+            <OverallInformation data-test='movie-info'>
                 <h2> Filme e sessão</h2>
                 <p>
                     {movie}
@@ -20,7 +20,7 @@ export default function CheckoutPage({ sucessInfo }) {
                 </p>
             </OverallInformation>
 
-            <SeatsInformation>
+            <SeatsInformation data-test='seats-info'>
                 <h2>Ingressos</h2>
                 
                     {seats.map((selected) => (
@@ -31,7 +31,7 @@ export default function CheckoutPage({ sucessInfo }) {
                 
             </SeatsInformation>
 
-            <UserInformation>
+            <UserInformation data-test='client-info'>
                 <h2>Comprador</h2>
                 <p>
                     Nome: {name}
@@ -42,7 +42,7 @@ export default function CheckoutPage({ sucessInfo }) {
             </UserInformation>
 
             <Link to={'/'}>
-            <HomeButtom>
+            <HomeButtom data-test='go-home-bnt'>
                 Voltar pra Home
             </HomeButtom>
             </Link>

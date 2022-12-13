@@ -27,7 +27,10 @@ export default function MoviesPage() {
             </Subtitle>
             <Movies>
                 {movies.map(movie => (
-                    <MovieImage key={movie.id}>
+                    <MovieImage 
+                    key={movie.id}
+                    data-test='movie'
+                    >
                         <Link to={`/sessoes/${movie.id}`}>
                             <img src={movie.posterURL} alt='poster' />
                         </Link>
