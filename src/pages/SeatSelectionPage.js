@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function SeatSelectionPage() {
+export default function SeatSelectionPage({ setSucessInfo }) {
     const [seatSelection, setSeatSelection] = useState(undefined);
     const [seatNumber, setSeatNumber] = useState([]);
     const [selection, setSelection] = useState([]);
@@ -53,11 +53,18 @@ export default function SeatSelectionPage() {
         const URL = 'https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many';
         const promise = axios.post(URL, submit);
 
-        promise.then(res => {
-            console.log('then', res.data) 
+        promise.then(() => {
+            setSucessInfo({
+                movie: seatSelection.movie.title,
+                date: seatSelection.day.date,
+                time: seatSelection.name,
+                seats: seatNumber,
+                name: name,
+                cpf: cpf
+            })
             navigate('/sucesso');
         });
-        
+
         promise.catch(err => console.log('err', err.response.data));
 
         setName('');
